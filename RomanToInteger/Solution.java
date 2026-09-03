@@ -37,6 +37,7 @@ public class Solution {
          */
         return result;
     }
+    //CÁCH 1: LÀ CỘNG TỪ TRÁI QUA PHẢI
     public int getValue(char x){
         switch (x) {
             case 'I': return 1;
@@ -49,13 +50,38 @@ public class Solution {
             default:  return 0;
         }
     }
-    public int romanToInt(String s){
+    public int romanToInt_CACH1(String s){
         int result = 0;
         
         for(int i = 0; i < s.length(); i ++){
             if(i + 1 < s.length() && getValue(s.charAt(i)) < getValue(s.charAt(i + 1))){
                 result -= getValue(s.charAt(i));
             }else result += getValue(s.charAt(i));
+        }
+        return result;
+    }
+    //CÁCH 2: CỘNG TỪ PHẢI QUA TRÁI
+    public int romanToInt(String s){
+        int cur = 0;
+        int prev = 0;
+        int result = 0;
+
+        for(int i = s.length() - 1; i >= 0; i--){
+            cur = switch(s.charAt(i)){
+                case 'I' -> 1;
+                case 'V' -> 5;
+                case 'X' -> 10;
+                case 'L' -> 50;
+                case 'C' -> 100;
+                case 'D' -> 500;
+                case 'M' -> 1000;
+                default -> 0;
+            };
+            if(cur < prev) result -= cur;
+            else {
+                result += cur;
+                prev = cur;
+            }
         }
         return result;
     }
