@@ -20,6 +20,16 @@ public class Solution {
         return chuoi.toString();
     }
     //Cách 2: 
+    public String longestCommonPrefix_second(String[] strs){
+        for(int i = 1; i <= strs[0].length(); i++){
+            String check = strs[0].substring(0,i);
+            for(int j = 1; j < strs.length; j ++){
+                if(strs[j].length() < i || !strs[j].substring(0, i).equals(check)) return strs[0].substring(0,i - 1);
+            }
+        }
+        return strs[0];
+    }
+    //Cách 3: học thuộc chat và tự code lại
     public static void main(String[] args) {
         Solution sol = new Solution();
         String[] test = {"flower", "flow", "flight"};
