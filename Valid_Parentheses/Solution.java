@@ -1,5 +1,7 @@
 package Valid_Parentheses;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 public class Solution {
@@ -37,5 +39,60 @@ public class Solution {
     Sau khi duyệt hết chuỗi:Nếu stack rỗng (stack.isEmpty()) --> trả về true (tất cả ngoặc mở đều đã được đóng hợp lệ).
     Nếu còn phần tử --> trả về false (thừa ngoặc mở). */
     //Có 2 cách: 1 là dùng Stack (ArrayDequeue) hoặc tự tạo ra stack
+    public boolean isValid(String s){
+        if (s.length() % 2 != 0) {
+            return false;
+        }
+        Deque<Character> list = new ArrayDeque<>();
+        for(char var : s.toCharArray()){
+            switch (var) {
+                case '(': list.push(')');
+                    break;
+                case '{': list.push('}');
+                    break;
+                case '[': list.push(']');
+                    break;
+                default:
+                    if(list.isEmpty() || var != list.pop()) return false;
+                    break;
+            }
+        }
+        return list.isEmpty();
+    }
+    //Dưới đây là của AI
     
+    public boolean isValid_AI(String s) {
+        // Độ dài lẻ không bao giờ hợp lệ
+        if (s.length() % 2 != 0) {
+            return false;
+        }
+
+        // Mảng tĩnh tối đa bằng độ dài chuỗi, không sinh thêm đối tượng Wrapper
+        char[] stack = new char[s.length()];
+        int top = -1;
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            switch (c) {
+                case '(': 
+                    stack[++top] = ')'; 
+                    break;
+                case '{': 
+                    stack[++top] = '}'; 
+                    break;
+                case '[': 
+                    stack[++top] = ']'; 
+                    break;
+                default:
+                    // top == -1 tức stack rỗng, hoặc đỉnh không khớp với ngoặc đóng hiện tại
+                    if (top == -1 || stack[top--] != c) {
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return top == -1;
+    }
 }
