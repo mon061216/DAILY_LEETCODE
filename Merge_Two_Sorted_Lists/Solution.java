@@ -9,24 +9,22 @@ public class Solution {
         if (list2 == null) {
             return list1;
         }
-        ListNode check = null;
-        while (list1.next != null || list2.next != null) {
+        ListNode result = new ListNode(-1); //khỏi tạo có node là -1, để khỏi phải check điều kiện empty
+        ListNode check = result; //con trỏ để chạy
+
+        //Tại sao lại dùng && ở đây ???
+        while (list1 != null  && list2 != null) {
             if(list1.val <= list2.val){
-                if(check == null) check = new ListNode(list1.val,null);
-                else{
-                    check.next = new ListNode(list1.val);
-                    check = check.next;
-                }
+                check.next = list1;
                 list1 = list1.next;                    
             }else{
-                if(check == null) check = new ListNode(list2.val,null);
-                else{
-                    check.next = new ListNode(list2.val);
-                    check = check.next;
-                }
+                check.next = list2;
                 list2 = list2.next;
             }
+            check = check.next;
         }
-        return check;
+        //Chỗ này kiểm tra xem còn list nào còn dư phần tử thì ghép vào
+        check.next = list1 != null ? list1 : list2;
+        return result.next;
     }
 }
